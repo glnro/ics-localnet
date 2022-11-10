@@ -1,7 +1,4 @@
-echo "Exporting values"
-# Setup RPC
 source ./vars.sh
-echo "Finished"
 
 # Optionally build provider chain
 read -p "Build interchain-security-pd? [y/n]?" response
