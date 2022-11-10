@@ -1,0 +1,13 @@
+export CURRENT_IP=127.0.0.1
+export PROV_DENOM=uatom
+export CONS_DENOM=stake
+export PROV_KEY=provider-key
+export CONS_KEY=consumer-key
+export PROV_NODE_MONIKER=provider-coordinator
+export PROV_CHAIN_ID=gaia
+export PROV_NODE_DIR=./provider
+export CONS_NODE_DIR=./consumer
+export CONS_NODE_MONIKER=coordinator
+export CONS_CHAIN_ID=consumer
+export HERMES_DIR=./hermes
+export HERMES_CONFIG=${HERMES_DIR}/config.toml
