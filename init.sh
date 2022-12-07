@@ -4,7 +4,7 @@ source ./vars.sh
 read -p "Build interchain-security-pd? [y/n]?" response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
-  git clone -b glnro/ics-sdk45 git@github.com:cosmos/gaia.git
+  git clone -b glnro/ics-v45 git@github.com:cosmos/gaia.git
   cd gaia
   make build
   mv build/gaiad ../interchain-security-pd
@@ -131,12 +131,28 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
   git clone https://github.com/cosmos/interchain-security.git
   cd interchain-security
-  git checkout tags/v0.2.0
+  git checkout goc-december
   make install
   CD=$(which interchain-security-cd)
   mv $CD ../interchain-security-cd
   cd ..
   rm -rf interchain-security
+  echo "*******Consumer Version*******"
+  ./interchain-security-cd version
+fi
+
+# Optionally build provider chain
+read -p "Build neutron interchain-security-cd? [y/n]?" response
+if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
+then
+  git clone https://github.com/neutron-org/neutron.git
+  cd neutron
+  git checkout v0.1.0
+  make install
+  CD=$(which neutrond)
+  mv $CD ../interchain-security-cd
+  cd ..
+  rm -rf neutron
   echo "*******Consumer Version*******"
   ./interchain-security-cd version
 fi
@@ -167,8 +183,7 @@ then
   ./interchain-security-cd config node "tcp://${CURRENT_IP}:26648" --home $CONS_NODE_DIR
 
   # Get consumer chain genesis from provider
-  ./interchain-security-pd query provider consumer-genesis $CONS_CHAIN_ID \
-    --home $PROV_NODE_DIR -o json > ccvconsumer_genesis.json
+  ./interchain-security-pd query provider consumer-genesis $CONS_CHAIN_ID --home $PROV_NODE_DIR -o json > ccvconsumer_genesis.json
 
   # Replace genesis state
   jq -s '.[0].app_state.ccvconsumer = .[1] | .[0]' ${CONS_NODE_DIR}/config/genesis.json ccvconsumer_genesis.json > \
