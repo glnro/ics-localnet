@@ -98,6 +98,12 @@ then
     "genesis_hash": "Z2VuX2hhc2g=",
     "binary_hash": "YmluX2hhc2g=",
     "spawn_time": "${SPAWN_TIME}",
+    "unbonding_period": 100000000000,
+    "ccv_timeout_period": 100000000000,
+    "transfer_timeout_period": 100000000000,
+    "consumer_redistribution_fraction": "0.75",
+    "blocks_per_distribution_transmission": 10,
+    "historical_entries": 10000,
     "deposit": "10000001${PROV_DENOM}"
 }
 EOF
@@ -131,7 +137,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
   git clone https://github.com/cosmos/interchain-security.git
   cd interchain-security
-  git checkout goc-december
+  git checkout 585-canonical-ibc
   make install
   CD=$(which interchain-security-cd)
   mv $CD ../interchain-security-cd
