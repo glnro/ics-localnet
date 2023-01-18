@@ -4,7 +4,7 @@ source ./vars.sh
 read -p "Build interchain-security-pd? [y/n]?" response
 if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
-  git clone -b glnro/ics-v45 git@github.com:cosmos/gaia.git
+  git clone -b glnro/v9-upgrade-handler git@github.com:cosmos/gaia.git
   cd gaia
   make build
   mv build/gaiad ../interchain-security-pd
@@ -137,7 +137,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
   git clone https://github.com/cosmos/interchain-security.git
   cd interchain-security
-  git checkout 585-canonical-ibc
+  git checkout v1.0.0-rc1
   make install
   CD=$(which interchain-security-cd)
   mv $CD ../interchain-security-cd
@@ -153,7 +153,7 @@ if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
 then
   git clone https://github.com/neutron-org/neutron.git
   cd neutron
-  git checkout v0.1.0
+  git checkout main
   make install
   CD=$(which neutrond)
   mv $CD ../interchain-security-cd
@@ -184,7 +184,7 @@ then
     --keyring-backend test --home $CONS_NODE_DIR
 
   # Config Chain
-  ./interchain-security-cd config chain-id gaia --home $CONS_NODE_DIR
+  ./interchain-security-cd config chain-id $CONS_CHAIN_ID --home $CONS_NODE_DIR
   ./interchain-security-cd config keyring-backend test --home $CONS_NODE_DIR
   ./interchain-security-cd config node "tcp://${CURRENT_IP}:26648" --home $CONS_NODE_DIR
 
@@ -217,7 +217,7 @@ then
   mkdir $HERMES_DIR
   tee ${HERMES_DIR}/config.toml<<EOF
 [global]
- log_level = "info"
+ log_level = "debug"
 
 [[chains]]
 account_prefix = "cosmos"
